@@ -1,0 +1,218 @@
+/* ===== LOCK SCREEN ===== */
+.lock-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 30% 40%, rgba(192,132,252,0.35) 0%, transparent 55%),
+              radial-gradient(ellipse at 75% 65%, rgba(244,114,182,0.3) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 90%, rgba(251,191,36,0.15) 0%, transparent 45%),
+              linear-gradient(160deg, #0d0712 0%, #1e0a28 40%, #2a0d1e 100%);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  overflow: hidden;
+}
+.lock-screen.unlocking {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+/* Stars */
+.lock-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: lockStarTwinkle 3s ease-in-out infinite alternate;
+}
+@keyframes lockStarTwinkle {
+  0%  { opacity: 0.5; }
+  100%{ opacity: 1;   }
+}
+
+/* Glow orbs */
+.lock-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  animation: lockDrift 9s ease-in-out infinite alternate;
+}
+.lock-orb-1 { width: 450px; height: 450px; top: -120px; left: -120px; background: rgba(192,132,252,0.28); animation-delay: 0s; }
+.lock-orb-2 { width: 350px; height: 350px; bottom: -80px; right: -80px; background: rgba(244,114,182,0.22); animation-delay: 3s; }
+.lock-orb-3 { width: 280px; height: 280px; top: 45%; left: 55%; background: rgba(251,191,36,0.13); animation-delay: 6s; }
+@keyframes lockDrift {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(25px,18px) scale(1.08); }
+}
+
+/* Floating hearts on lock screen */
+.lock-floating-hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ===== GLASS BOX ===== */
+.lock-box {
+  position: relative;
+  z-index: 1;
+  width: min(420px, 90vw);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 28px;
+  padding: 52px 44px 44px;
+  text-align: center;
+  box-shadow:
+    0 0 0 1px rgba(244,114,182,0.08),
+    0 8px 40px rgba(0,0,0,0.55),
+    0 0 80px rgba(244,114,182,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+  animation: boxEntrance 1s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes boxEntrance {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Shake animation */
+.lock-box.shake {
+  animation: shake 0.5s cubic-bezier(0.36,0.07,0.19,0.97) both;
+}
+@keyframes shake {
+  10%, 90% { transform: translateX(-4px); }
+  20%, 80% { transform: translateX(6px);  }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px);  }
+}
+
+/* Lock icon */
+.lock-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+@keyframes iconFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* Title */
+.lock-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  color: #fff;
+  text-shadow: 0 0 40px rgba(244,114,182,0.7);
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+/* Subtitle */
+.lock-subtitle {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.6);
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* Input */
+.lock-input-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+.lock-input {
+  width: 100%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(244,114,182,0.3);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 1.5rem;
+  letter-spacing: 10px;
+  text-align: center;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+}
+.lock-input::placeholder {
+  letter-spacing: 8px;
+  color: rgba(255,255,255,0.25);
+  font-size: 1.2rem;
+}
+.lock-input:focus {
+  border-color: rgba(244,114,182,0.7);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 0 3px rgba(244,114,182,0.15), 0 0 20px rgba(244,114,182,0.2);
+}
+
+/* Error message */
+.lock-error {
+  font-size: 0.82rem;
+  color: #fb7185;
+  height: 20px;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.lock-error.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Unlock button */
+.lock-btn {
+  position: relative;
+  width: 100%;
+  padding: 15px 28px;
+  background: linear-gradient(135deg, #f472b6, #c084fc, #fbbf24);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(244,114,182,0.45);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 18px;
+}
+.lock-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 50px rgba(244,114,182,0.65);
+}
+.lock-btn:active { transform: translateY(0); }
+
+.lock-btn-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.18);
+  transform: scale(0);
+  animation: lockRipple 2.5s ease-out infinite;
+}
+@keyframes lockRipple {
+  0%   { transform: scale(0); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* Hint */
+.lock-hint {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.28);
+  font-style: italic;
+}
+
+/* Success flash */
+.lock-box.success .lock-input {
+  border-color: rgba(74,222,128,0.6);
+  box-shadow: 0 0 0 3px rgba(74,222,128,0.15);
+}
